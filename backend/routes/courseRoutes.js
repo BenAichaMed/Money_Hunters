@@ -5,6 +5,7 @@ const videoController = require("../controllers/videoController");
 const enrollmentController = require("../controllers/enrollmentController");
 const { restrictToCourseOwner } = require("../controllers/authController");
 const router = express.Router();
+//this route is to get all my enrolled course
 router.get(
   "/my-enrolled-courses",
   authController.protect,
