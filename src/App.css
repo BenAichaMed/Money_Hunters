@@ -1,0 +1,100 @@
+/* Root App Styles */
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #23272a; /* Dark theme background */
+    color: #ffffff; /* White text */
+  }
+  
+  /* Header styles */
+  .app-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    background-color: #2c2f33; /* Slightly darker than the body */
+    border-bottom: 1px solid #7289da; /* Discord-like highlight */
+  }
+  
+  .app-header h1 {
+    font-size: 24px;
+    color: #ffffff;
+  }
+  
+  .app-header a {
+    font-size: 16px;
+    color: #7289da;
+  }
+  
+  .app-header a:hover {
+    color: #5b6eae;
+  }
+  
+  /* Main content styles */
+  .app-main {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .app-main h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+  }
+  
+  .app-main p {
+    font-size: 16px;
+    color: #b9bbbe;
+    text-align: center;
+    max-width: 600px;
+  }
+  
+  /* Footer styles */
+  .app-footer {
+    text-align: center;
+    padding: 10px;
+    background-color: #2c2f33;
+    border-top: 1px solid #7289da;
+    color: #b9bbbe;
+  }
+  
+  .app-footer a {
+    color: #7289da;
+  }
+  
+  .app-footer a:hover {
+    color: #5b6eae;
+  }
+  
+  /* Utility styles */
+  .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .full-width {
+    width: 100%;
+  }
+  
+  .max-width-container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  @media (max-width: 768px) {
+    .app-header,
+    .app-footer {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .app-main {
+      padding: 10px;
+    }
+  }
+  
