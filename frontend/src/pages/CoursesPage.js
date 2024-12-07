@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import CourseGrid from '../components/courses/CourseGrid';
+import { CircularProgress } from '@mui/material';
 
 const getCourses = async () => {
   // Simulating a delay to mimic an API call
@@ -12,6 +13,41 @@ const getCourses = async () => {
           description: 'Learn the fundamentals of React, including components, state, and props.',
           duration: '3 hours',
           imageUrl: 'https://via.placeholder.com/400x300?text=React+Basics',
+        },
+        {
+          id: '2',
+          title: 'Advanced JavaScript',
+          description: 'Deep dive into advanced concepts of JavaScript for modern web development.',
+          duration: '5 hours',
+          imageUrl: 'https://via.placeholder.com/400x300?text=Advanced+JS',
+        },
+        {
+          id: '3',
+          title: 'Node.js API Development',
+          description: 'Build and deploy APIs using Node.js, Express, and MongoDB.',
+          duration: '4 hours',
+          imageUrl: 'https://via.placeholder.com/400x300?text=Node.js+API',
+        },
+        {
+          id: '1',
+          title: 'React Basics',
+          description: 'Learn the fundamentals of React, including components, state, and props.',
+          duration: '3 hours',
+          imageUrl: 'https://via.placeholder.com/400x300?text=React+Basics',
+        },
+        {
+          id: '2',
+          title: 'Advanced JavaScript',
+          description: 'Deep dive into advanced concepts of JavaScript for modern web development.',
+          duration: '5 hours',
+          imageUrl: 'https://via.placeholder.com/400x300?text=Advanced+JS',
+        },
+        {
+          id: '3',
+          title: 'Node.js API Development',
+          description: 'Build and deploy APIs using Node.js, Express, and MongoDB.',
+          duration: '4 hours',
+          imageUrl: 'https://via.placeholder.com/400x300?text=Node.js+API',
         },
         {
           id: '2',
@@ -53,7 +89,11 @@ const CoursesPage = () => {
     fetchCourses();
   }, []);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return (
+    <div className="flex justify-center items-center h-screen">
+      <CircularProgress />
+    </div>
+  );
   if (error) return <div>{error}</div>;
 
   return (
@@ -61,7 +101,7 @@ const CoursesPage = () => {
       <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-8">
         Available Courses
       </h1>
-      <CourseGrid courses={courses} />
+      <CourseGrid courses={courses} cols={4} />
     </div>
   );
 };

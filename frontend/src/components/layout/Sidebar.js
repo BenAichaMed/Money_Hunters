@@ -16,13 +16,13 @@ const Sidebar = () => {
   return (
     <aside
       className={clsx(
-        'h-screen bg-gray-800 text-white transition-all duration-300',
+        'h-auto bg-gray-800 text-white transition-all duration-300',
         isCollapsed ? 'w-16' : 'w-64'
       )}
     >
       <div className="flex flex-col h-full">
         <div className="p-4 flex items-center justify-between">
-          {!isCollapsed && <h1 className="text-xl font-bold">Platform</h1>}
+          {!isCollapsed && <h1 className="text-xl font-bold">Money Hunters</h1>}
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
             className="p-2 rounded-lg hover:bg-gray-700"

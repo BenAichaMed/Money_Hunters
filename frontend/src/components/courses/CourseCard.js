@@ -7,7 +7,10 @@ const CourseCard = ({ course }) => {
   const navigate = useNavigate();
 
   return (
-    <Card className="flex flex-col h-full">
+    <Card
+      className="flex flex-col h-full max-w-lg transform transition-transform duration-300 hover:scale-105 hover:cursor-pointer"
+      onClick={() => navigate(`/courses/${course.id}`)}
+    >
       <img
         src={course.imageUrl}
         alt={course.title}
