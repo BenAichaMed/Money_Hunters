@@ -88,7 +88,7 @@ const HomePage = () => {
         </h1>
         <Slider className='mt-5' />
         <p className="mt-3 max-w-md mx-auto text-base text-gray-800 dark:text-gray-300 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-        Your Journey to Financial Freedom Starts Here - Let's Make <span className='font-bold'>Money</span> Work for You!
+        Your Journey to Financial Freedom Starts Here - Let's Make <span className='font-bold text-xl'>Money</span> Work for You!
         </p>
       </div>
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-5">
