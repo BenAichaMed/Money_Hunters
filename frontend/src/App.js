@@ -1,15 +1,17 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { ThemeProvider } from './context/ThemeContext';
+import { ThemeProvider } from "./context/ThemeContext";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import HomePage from "./pages/HomePage";
 import CoursesPage from "./pages/CoursesPage";
 import Sidebar from "./components/layout/Sidebar";
+import { loginUser } from "./services/apiLogin";
 
 function App() {
-  const login = (email, password) => {
-    console.log("Login:", email, password); // Placeholder for API call
+  const login = async (email, password) => {
+    const res = await loginUser(email, password);
+    console.log(res);
   };
 
   const signup = (userData) => {
@@ -25,6 +27,8 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/courses" element={<CoursesPage />} />
+              <Route path="/login" element={<Login onLogin={login} />} />
+              <Route path="/register" element={<Signup />} />
               {/* Add more routes as needed */}
             </Routes>
           </main>

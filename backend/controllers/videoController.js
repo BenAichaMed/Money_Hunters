@@ -4,19 +4,20 @@ const fs = require("fs");
 const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
+const { getVideoDurationInSeconds } = require("get-video-duration");
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "uploads/");
   },
   filename: function (req, file, cb) {
-    // console.log(file.originalname);
     cb(null, file.originalname);
   },
 });
 const upload = multer({ storage: storage });
 exports.uploading = [
   upload.single("video"),
-  (req, res, next) => {
+  catchAsync(async (req, res, next) => {
     // const uploadedFilePath = path.join(
     //   process.cwd(),
     //   "uploads",
@@ -35,10 +36,15 @@ exports.uploading = [
 
     //   res.send(`File uploaded and renamed to: ${newFileName}`);
     // });
+    const videoPath = path.join(process.cwd(), "uploads", req.file.filename);
+
+    // Get video duration
+    const durationInSeconds = await getVideoDurationInSeconds(videoPath);
+    req.videoDuration = Math.round(durationInSeconds); // Round to nearest second
     req.url = path.join("uploads", req.file.filename);
 
     next();
-  },
+  }),
 ];
 exports.checkVideoAccess = catchAsync(async (req, res, next) => {
   const { sectionIndex, courseId, videoIndex } = req.params;

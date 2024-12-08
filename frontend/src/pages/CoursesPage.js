@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import CourseGrid from '../components/courses/CourseGrid';
-import { CircularProgress } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import CourseGrid from "../components/courses/CourseGrid";
+import { CircularProgress } from "@mui/material";
+import { getAllCourse } from "../services/apiCourses";
 
 const getCourses = async () => {
   // Simulating a delay to mimic an API call
@@ -8,62 +9,69 @@ const getCourses = async () => {
     setTimeout(() => {
       resolve([
         {
-          id: '1',
-          title: 'React Basics',
-          description: 'Learn the fundamentals of React, including components, state, and props.',
-          duration: '3 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=React+Basics',
+          id: "1",
+          title: "React Basics",
+          description:
+            "Learn the fundamentals of React, including components, state, and props.",
+          duration: "3 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=React+Basics",
         },
         {
-          id: '2',
-          title: 'Advanced JavaScript',
-          description: 'Deep dive into advanced concepts of JavaScript for modern web development.',
-          duration: '5 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Advanced+JS',
+          id: "2",
+          title: "Advanced JavaScript",
+          description:
+            "Deep dive into advanced concepts of JavaScript for modern web development.",
+          duration: "5 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Advanced+JS",
         },
         {
-          id: '3',
-          title: 'Node.js API Development',
-          description: 'Build and deploy APIs using Node.js, Express, and MongoDB.',
-          duration: '4 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Node.js+API',
+          id: "3",
+          title: "Node.js API Development",
+          description:
+            "Build and deploy APIs using Node.js, Express, and MongoDB.",
+          duration: "4 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Node.js+API",
         },
         {
-          id: '1',
-          title: 'React Basics',
-          description: 'Learn the fundamentals of React, including components, state, and props.',
-          duration: '3 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=React+Basics',
+          id: "1",
+          title: "React Basics",
+          description:
+            "Learn the fundamentals of React, including components, state, and props.",
+          duration: "3 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=React+Basics",
         },
         {
-          id: '2',
-          title: 'Advanced JavaScript',
-          description: 'Deep dive into advanced concepts of JavaScript for modern web development.',
-          duration: '5 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Advanced+JS',
+          id: "2",
+          title: "Advanced JavaScript",
+          description:
+            "Deep dive into advanced concepts of JavaScript for modern web development.",
+          duration: "5 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Advanced+JS",
         },
         {
-          id: '3',
-          title: 'Node.js API Development',
-          description: 'Build and deploy APIs using Node.js, Express, and MongoDB.',
-          duration: '4 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Node.js+API',
+          id: "3",
+          title: "Node.js API Development",
+          description:
+            "Build and deploy APIs using Node.js, Express, and MongoDB.",
+          duration: "4 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Node.js+API",
         },
         {
-          id: '2',
-          title: 'Advanced JavaScript',
-          description: 'Deep dive into advanced concepts of JavaScript for modern web development.',
-          duration: '5 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Advanced+JS',
+          id: "2",
+          title: "Advanced JavaScript",
+          description:
+            "Deep dive into advanced concepts of JavaScript for modern web development.",
+          duration: "5 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Advanced+JS",
         },
         {
-          id: '3',
-          title: 'Node.js API Development',
-          description: 'Build and deploy APIs using Node.js, Express, and MongoDB.',
-          duration: '4 hours',
-          imageUrl: 'https://via.placeholder.com/400x300?text=Node.js+API',
+          id: "3",
+          title: "Node.js API Development",
+          description:
+            "Build and deploy APIs using Node.js, Express, and MongoDB.",
+          duration: "4 hours",
+          imageUrl: "https://via.placeholder.com/400x300?text=Node.js+API",
         },
-        
       ]);
     }, 1000); // 1-second delay
   });
@@ -77,10 +85,11 @@ const CoursesPage = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const data = await getCourses();
-        setCourses(data);
+        const { course } = await getAllCourse();
+        setCourses(course);
       } catch (err) {
-        setError('Failed to fetch courses');
+        console.error("Error details:", err);
+        setError("Failed to fetch courses");
       } finally {
         setLoading(false);
       }
@@ -89,11 +98,12 @@ const CoursesPage = () => {
     fetchCourses();
   }, []);
 
-  if (loading) return (
-    <div className="flex justify-center items-center h-screen">
-      <CircularProgress />
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <CircularProgress />
+      </div>
+    );
   if (error) return <div>{error}</div>;
 
   return (

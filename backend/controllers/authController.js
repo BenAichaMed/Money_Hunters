@@ -25,7 +25,6 @@ exports.protect = catchAsync(async (req, res, next) => {
     req.headers.authorization.startsWith("Bearer")
   ) {
     token = req.headers.authorization.split(" ")[1];
-    console.log(token);
   }
   if (!token) return next(new AppError("please login to get access on", 401));
 
@@ -50,7 +49,6 @@ exports.restrictTo = (...roles) => {
 
 exports.signin = catchAsync(async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
-  console.log(name);
 
   const user = await User.create(req.body);
   const token = generateToken(user._id);
@@ -67,9 +65,10 @@ exports.login = catchAsync(async (req, res, next) => {
     return next(new AppError("please provide email and password", 400));
   // Explicitly select password because it's excluded by default
   const user = await User.findOne({ email }).select("+password");
+  console.log(!user);
 
   if (!user || !(await user.correctPassword(password, user.password))) {
-    return next(new AppError("Incorrect email or password", 401));
+    return next(new AppError("Incorrect email or password", 301));
   }
 
   // If password is correct, proceed with login

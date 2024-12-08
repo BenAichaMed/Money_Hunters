@@ -1,6 +1,7 @@
 const catchAsync = require("../utils/catchAsync");
 const Course = require("../models/courseModel");
 const AppError = require("../utils/appError");
+const formatDuration = require("../utils/formatDuration");
 exports.getAllCourse = catchAsync(async (req, res, next) => {
   const course = await Course.find().populate({
     path: "teacher",
@@ -8,11 +9,35 @@ exports.getAllCourse = catchAsync(async (req, res, next) => {
   });
   const transformedCourses = course.map((course) => {
     const courseObj = course.toObject();
+    let totalDuration = 0;
+    courseObj.sections = courseObj.sections.map((section) => {
+      let sectionDuration = 0;
+
+      // Calculate duration for each video in the section
+      section.videos = section.videos.map((video) => {
+        sectionDuration += video.duration || 0;
+        return {
+          ...video,
+          durationFormatted: formatDuration(video.duration),
+        };
+      });
+
+      totalDuration += sectionDuration;
+      return {
+        ...section,
+        sectionDuration,
+        sectionDurationFormatted: formatDuration(sectionDuration),
+      };
+    });
     // Add number of students
     courseObj.numberOfStudents = course.studentsEnrolled.length;
     delete courseObj.studentsEnrolled;
 
-    return courseObj;
+    return {
+      ...courseObj,
+      totalDuration,
+      totalDurationFormatted: formatDuration(totalDuration),
+    };
   });
   res.status(200).json({
     status: "success",
@@ -46,13 +71,18 @@ exports.getCourse = catchAsync(async (req, res, next) => {
 exports.createCourse = catchAsync(async (req, res, next) => {
   const { title, description, price } = req.body;
   const { _id: teacher } = req.user;
+  const photo = req.url ? req.url : null;
 
+  if (!photo) {
+    return next(new AppError("Please provide a course photo", 400));
+  }
   const course = await Course.create({
     title,
     description,
     teacher,
     price,
     sections: [],
+    photo,
   });
 
   res.status(201).json({
@@ -136,14 +166,20 @@ exports.addVideo = catchAsync(async (req, res, next) => {
   const { sectionIndex } = req.params;
   const { title, isFree } = req.body;
   const url = req.url;
-  //console.log(title);
+  const duration = req.videoDuration;
+  const course = await Course.findById(req.params.courseId);
+
+  if (!course) {
+    return next(new AppError("No course found with that ID", 404));
+  }
+
   //console.log(url);
-  const section = req.course.sections.find(
+  const section = course.sections.find(
     (sec) => sec._id.toString() === sectionIndex
   );
   if (!section) return next(new AppError("Section not found", 404));
-  section.videos.push({ title, url, isFree });
-  await req.course.save();
+  section.videos.push({ title, url, isFree, duration });
+  await course.save();
 
   res.status(201).send("okkk");
 });

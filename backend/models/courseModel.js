@@ -8,6 +8,7 @@ const courseSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
+  photo: String,
   price: { type: Number, required: true },
   sections: [
     {
@@ -16,6 +17,7 @@ const courseSchema = new mongoose.Schema({
         {
           title: String,
           url: String,
+          duration: Number,
           isFree: {
             type: Boolean,
             default: false, // By default, videos are not free

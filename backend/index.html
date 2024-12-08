@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Video Upload Test</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      .upload-form {
+        border: 2px dashed #ccc;
+        padding: 20px;
+        border-radius: 8px;
+      }
+      .upload-btn {
+        background: #4caf50;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      .upload-btn:hover {
+        background: #45a049;
+      }
+      #result {
+        margin-top: 20px;
+        padding: 10px;
+        border-radius: 4px;
+      }
+      .success {
+        background: #dff0d8;
+        border: 1px solid #d0e9c6;
+      }
+      .error {
+        background: #f2dede;
+        border: 1px solid #ebccd1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Video Upload Test</h1>
+    <div class="upload-form">
+      <form id="uploadForm" enctype="multipart/form-data">
+        <div>
+          <input
+            type="file"
+            id="video"
+            name="video"
+            accept="video/*"
+            required
+          />
+        </div>
+        <br />
+        <button type="submit" class="upload-btn">Upload Video</button>
+      </form>
+    </div>
+    <div id="result"></div>
+
+    <script>
+      document
+        .getElementById("uploadForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const resultDiv = document.getElementById("result");
+          const formData = new FormData();
+          const videoFile = document.getElementById("video").files[0];
+          const title = "react setup";
+
+          formData.append("video", videoFile);
+          formData.append("title", title);
+
+          try {
+            const response = await fetch(
+              "http://127.0.0.1:8080/api/v1/course/6755b09ece43241142056e93/sections/6755b21b568710241dcf9f9e/videos",
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
+
+            const data = await response.json();
+            resultDiv.className = "success";
+            resultDiv.innerHTML = `
+                    <h3>Upload Successful!</h3>
+                    <p>Video Duration: ${data.duration} seconds</p>
+                    <p>File Path: ${data.url}</p>
+                `;
+          } catch (error) {
+            resultDiv.className = "error";
+            resultDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+          }
+        });
+    </script>
+  </body>
+</html>

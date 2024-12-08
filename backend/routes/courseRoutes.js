@@ -4,8 +4,8 @@ const courseController = require("../controllers/courseController");
 const videoController = require("../controllers/videoController");
 const enrollmentController = require("../controllers/enrollmentController");
 const { restrictToCourseOwner } = require("../controllers/authController");
+const { uploadCoursePhoto } = require("../middleware/uploadMiddleware");
 const router = express.Router();
-//this route is to get all my enrolled course
 router.get(
   "/my-enrolled-courses",
   authController.protect,
@@ -15,6 +15,7 @@ router.route("/").get(courseController.getAllCourse).post(
   authController.protect,
 
   authController.restrictTo("teacher", "admin"),
+  uploadCoursePhoto,
   courseController.createCourse
 );
 
@@ -60,9 +61,9 @@ router
 // Video Routes
 router.post(
   "/:courseId/sections/:sectionIndex/videos",
-  authController.protect,
-  authController.restrictTo("teacher", "admin"),
-  restrictToCourseOwner,
+  // authController.protect,
+  // authController.restrictTo("teacher", "admin"),
+  // restrictToCourseOwner,
   videoController.uploading,
   courseController.addVideo
 );
