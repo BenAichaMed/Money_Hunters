@@ -49,15 +49,16 @@ exports.restrictTo = (...roles) => {
 
 exports.signin = catchAsync(async (req, res, next) => {
   const { name, email, password, confirmPassword } = req.body;
-
-  const user = await User.create(req.body);
-  const token = generateToken(user._id);
-  res.status(201).json({
-    info: "success",
-    data: {
-      token,
-    },
-  });
+  if (name && email && password && confirmPassword) {
+    const user = await User.create(req.body);
+    const token = generateToken(user._id);
+    res.status(201).json({
+      info: "success",
+      data: {
+        token,
+      },
+    });
+  }
 });
 exports.login = catchAsync(async (req, res, next) => {
   const { email, password } = req.body;

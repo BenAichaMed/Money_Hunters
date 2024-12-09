@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import CoursesPage from "./pages/CoursesPage";
 import Sidebar from "./components/layout/Sidebar";
 import { loginUser } from "./services/apiLogin";
+import { AuthProvider } from "./context/AuthContext";
 
 function App() {
   const login = async (email, password) => {
@@ -21,18 +22,20 @@ function App() {
   return (
     <ThemeProvider>
       <Router>
-        <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
-          <Sidebar />
-          <main className="flex-1 overflow-auto">
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/courses" element={<CoursesPage />} />
-              <Route path="/login" element={<Login onLogin={login} />} />
-              <Route path="/register" element={<Signup />} />
-              {/* Add more routes as needed */}
-            </Routes>
-          </main>
-        </div>
+        <AuthProvider>
+          <div className="flex min-h-screen bg-gray-100 dark:bg-gray-900">
+            <Sidebar />
+            <main className="flex-1 overflow-auto">
+              <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/courses" element={<CoursesPage />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Signup />} />
+                {/* Add more routes as needed */}
+              </Routes>
+            </main>
+          </div>
+        </AuthProvider>
       </Router>
     </ThemeProvider>
   );

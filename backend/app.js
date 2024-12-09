@@ -5,9 +5,11 @@ const courseRouter = require("./routes/courseRoutes");
 const userRouter = require("./routes/userRoutes");
 const gloabErrorController = require("./controllers/errorController");
 const app = express();
+const cors = require("cors");
 
 // 1) MIDDLEWARES
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
